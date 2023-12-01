@@ -2,53 +2,103 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>JS Reference VS Copy</title>
+        <title>Console Tricks!</title>
         <link rel="icon" href="https://fav.farm/🔥" />
     </head>
     <body>
+        <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
         <script>
-            // start with strings, numbers and booleans
+            const dogs = [
+                { name: 'Snickers', age: 2 },
+                { name: 'hugo', age: 8 },
+            ];
 
-            // Let's say we have an array
-            const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+            function makeGreen() {
+                const p = document.querySelector('p');
+                p.style.color = '#BADA55';
+                p.style.fontSize = '50px';
+            }
 
-            // and we want to make a copy of it.
+            //podemos ver a funçao que cai atraves do debug do devtools,
+            //apenas clicamos com botao direito no elemnto que queremos analisar
+            //'break on' e depois em 'atributte modifications'
 
-            // You might think we can just do something like this:
+            // Regular
+            console.log('hello');
 
-            // however what happens when we update that array?
+            // Interpolated
+            console.log('hello I am a %s string!', '💩');
+            //console.log('hello I am a ${var}'); podemos usar assim tb
 
-            // now here is the problem!
+            // Styled
+            console.log(
+                '%cI am some great text',
+                'font-size:50px; background:red; text-shadow:10px 10px 0 blue'
+            );
 
-            // oh no - we have edited the original array too!
+            // warning!
+            console.warn('oh noo');
 
-            // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+            // Error :|
+            console.error('shit');
 
-            // So, how do we fix this? We take a copy instead!
+            // Info
+            console.info('Crocodiles eat 3-4 people per year');
 
-            // one way
+            // Testing
+            //console.assert(1 === 2, 'falso!');
+            const p = document.querySelector('p');
+            console.assert(p.classList.contains('outch'), 'that is wrong');
 
-            // or create a new array and concat the old one in
+            // clearing
+            console.clear();
 
-            // or use the new ES6 Spread
+            // Viewing DOM Elements
+            console.log(p);
+            console.dir(p);
 
-            // now when we update it, the original one isn't changed
+            console.clear(); //só para limpar
+            // Grouping together
+            dogs.forEach((dog) => {
+                console.group(`${dog.name}`);
 
-            // The same thing goes for objects, let's say we have a person object
+                console.log(`this is ${dog.name}`);
+                console.log(`${dog.name} is ${dog.age} years old`);
+                console.log(`${dog.name} is ${dog.age * 7} dog years old`);
 
-            // with Objects
-            const person = {
-                name: 'Wes Bos',
-                age: 80,
-            };
+                console.groupEnd(`${dog.name}`);
+            });
 
-            // and think we make a copy:
+            dogs.forEach((dog) => {
+                console.groupCollapsed(`${dog.name}`); //ja vem colapsado
 
-            // how do we take a copy instead?
+                console.log(`this is ${dog.name}`);
+                console.log(`${dog.name} is ${dog.age} years old`);
+                console.log(`${dog.name} is ${dog.age * 7} dog years old`);
 
-            // We will hopefully soon see the object ...spread
+                console.groupEnd(`${dog.name}`);
+            });
 
-            // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+            // counting
+            console.count('Wes');
+            console.count('Wes');
+            console.count('Steve');
+            console.count('Wes');
+            console.count('Steve');
+            console.count('Wes');
+            console.count('Wes');
+
+            // timing
+            console.time('fetching data');
+            fetch('https://api.github.com/users/wesbos')
+                .then((data) => data.json())
+                .then((data) => {
+                    console.timeEnd('fetching data');
+                });
+
+            //table
+            console.table(dogs);
         </script>
     </body>
 </html>
